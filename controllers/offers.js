@@ -29,7 +29,7 @@ const {
 
 exports.createOffer = (req, res) => {
     const { body, params: { userId } } = req
-    body.status = `pending`
+    body.status = 'pending'
     Offer.create(body)
     .then(offer => {
         const { professional, address } = body

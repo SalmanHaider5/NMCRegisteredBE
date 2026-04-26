@@ -1,0 +1,229 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  password   String
+  role       UserRole
+  isVerified Boolean   @default(false)
+
+  company      Company?
+  professional Professional?
+  bankDetails BankDetails?
+
+  phones          Phone[]
+  payments        Payment[]
+  locationHistory LocationHistory[]
+  tokens          Token[]
+  timesheets      Timesheet[]
+
+  offersAsProfessional Offer[] @relation("ProfessionalOffers")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum UserRole {
+  COMPANY
+  PROFESSIONAL
+}
+
+model Company {
+  id                Int     @id @default(autoincrement())
+
+  firstName         String
+  lastName          String
+  organization      String
+  tradingName       String?
+
+  address           String
+  city              String
+  county            String?
+  postalCode        String
+
+  website           String?
+  phone             String
+  paymentCycle      String
+
+  registration      String?
+  charity           Boolean?
+  charityReg        String?
+
+  subsidiary        Boolean?
+  subsidiaryName    String?
+  subsidiaryAddress String?
+
+  userId            Int     @unique
+  user              User    @relation(fields: [userId], references: [id])
+
+  offers            Offer[] @relation("CompanyOffers")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Professional {
+  id                      Int      @id @default(autoincrement())
+
+  status                  String?
+  profilePicture          String?
+
+  fullName                String
+  dateOfBirth             DateTime
+
+  postCode                String
+  address                 String
+  city                    String?
+  county                  String?
+
+  nmcPin                  String
+
+  hasTransport           Boolean  @default(false)
+  distance               Int?
+
+  qualification          String?
+
+  twoFactorAuthentication Boolean  @default(false)
+
+  document               String?
+  crbDocument           String?
+
+  cpdHours              Int?
+
+  experience            String? @db.VarChar(2048)
+
+  userId                Int     @unique
+  user                  User    @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Offer {
+  id              Int      @id @default(autoincrement())
+
+  professionalId  Int
+  professional    User     @relation("ProfessionalOffers", fields: [professionalId], references: [id])
+
+  companyId       Int
+  company         Company  @relation("CompanyOffers", fields: [companyId], references: [id])
+
+  shiftRate       Int?
+
+  address         String?
+  shifts          String? @db.VarChar(1024)
+
+  message         String?
+  professionalMsg String?
+
+  status          String   @default("pending")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Timesheet {
+  id            Int      @id @default(autoincrement())
+
+  startingDay   DateTime?
+  endingDay     DateTime?
+
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+
+  singleTimesheets SingleTimesheet[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SingleTimesheet {
+  id           Int      @id @default(autoincrement())
+
+  date         DateTime?
+  shift        String?
+  time         String?
+
+  status       Boolean  @default(false)
+
+  timesheetId  Int
+  timesheet    Timesheet @relation(fields: [timesheetId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+
+  balance   String?
+  vat       String?
+  payDate   DateTime?
+
+  status    Boolean  @default(false)
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Phone {
+  id        Int     @id @default(autoincrement())
+
+  phone     String?
+  code      String  @unique
+  status    Boolean @default(false)
+
+  userId    Int     @unique
+  user      User    @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LocationHistory {
+  id         Int      @id @default(autoincrement())
+
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  latitude   String
+  longitude  String
+
+  createdAt DateTime @default(now())
+}
+
+model BankDetails {
+  id             Int     @id @default(autoincrement())
+
+  insurance      String?
+  sortCode       String?
+  accountNumber  String?
+
+  userId         Int     @unique
+  user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Token {
+  id        Int      @id @default(autoincrement())
+
+  token     String
+  expiresAt DateTime?
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  @@unique([userId])
+}
