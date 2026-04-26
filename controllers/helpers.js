@@ -230,10 +230,10 @@ exports.getProfessionalOffersQuery = id => {
 }
 
 exports.getOfferStatusMessage = (status, professionalId = '') => {
-    const accepted = `Hello, the NMC professional has accepted your shift offer, please confirm your acceptance via the “Approval” button on your NMC Professionals account.`
-    const declined = `Hello, the requested NMC professional has requested to be excused on this occasion and sends their apologies, sorry.`
+    const accepted = 'Hello, the NMC professional has accepted your shift offer, please confirm your acceptance via the “Approval” button on your NMC Professionals account.'
+    const declined = 'Hello, the requested NMC professional has requested to be excused on this occasion and sends their apologies, sorry.'
     const approved = `Your shift is confirmed by NMC Company, hope you have a good shift. Details are here: ${appUrl}professional/${professionalId}/requests`
-    const rejected = `Oops! Offered shift by NMC Professionals has now been filled by someone else. Offers normally work on a first come first serve basis, sorry this time next time will be better.`
+    const rejected = 'Oops! Offered shift by NMC Professionals has now been filled by someone else. Offers normally work on a first come first serve basis, sorry this time next time will be better.'
     if(status === 'accepted') return accepted
     else if(status === 'declined') return declined
     else if(status === 'approved') return approved

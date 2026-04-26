@@ -55,7 +55,7 @@ exports.verifyStripePayment = async (req, res, next) => {
         { charges: { data = [] } }= intent || {},
         { status } = data[0] || {}
 
-    if(status && equals(status, "succeeded")){
+    if(status && equals(status, 'succeeded')){
         next();
     }else{
         const response = getResponse(error, 'Payment not Verified', paymentUnsuccessful)
