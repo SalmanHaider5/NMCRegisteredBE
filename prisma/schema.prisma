@@ -18,7 +18,6 @@ model User {
   bankDetails BankDetails?
 
   phones          Phone[]
-  payments        Payment[]
   locationHistory LocationHistory[]
   tokens          Token[]
   timesheets      Timesheet[]
@@ -49,7 +48,6 @@ model Company {
 
   website           String?
   phone             String
-  paymentCycle      String
 
   registration      String?
   charity           Boolean?
@@ -63,6 +61,8 @@ model Company {
   user              User    @relation(fields: [userId], references: [id])
 
   offers            Offer[] @relation("CompanyOffers")
+  subscriptions     Subscription[]
+  payments          Payment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -159,20 +159,47 @@ model SingleTimesheet {
   updatedAt DateTime @updatedAt
 }
 
-model Payment {
-  id        Int      @id @default(autoincrement())
+model Subscription {
+  id Int @id @default(autoincrement())
 
-  balance   String?
-  vat       String?
-  payDate   DateTime?
+  companyId Int @unique
+  company Company @relation(fields: [companyId], references: [id])
 
-  status    Boolean  @default(false)
+  provider String 
+  status String
 
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  plan String?
+
+  stripeSubscriptionId String? @unique
+  stripeCustomerId String? @unique
+  stripeSessionId String? @unique
+
+  paypalSubscriptionId String? @unique
+  paypalPayerId String? @unique
+
+  currentPeriodStart DateTime?
+  currentPeriodEnd DateTime?
+
+  payments Payment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Payment {
+  id Int @id @default(autoincrement())
+  companyId Int
+  company Company @relation(fields: [companyId], references: [id])
+  subscriptionId Int?
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
+  amount Int
+  currency String
+  vat Int?
+  status String 
+  provider String 
+  transactionId String? @unique
+  paidAt DateTime?
+  createdAt DateTime @default(now())
 }
 
 model Phone {

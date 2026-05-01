@@ -4,7 +4,7 @@
   "description": "UK based application for Nursing Homes and Medical Professionals",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --files src/server.ts",
+    "dev": "nodemon --watch src --ext ts,json --exec tsx src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "lint": "eslint . --ext .ts",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/SalmanHaider5/nightangle#readme",
   "dependencies": {
-    "@paypal/checkout-server-sdk": "^1.0.2",
+    "@paypal/checkout-server-sdk": "^1.0.3",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "bcrypt": "^6.0.0",
@@ -44,7 +44,7 @@
     "randomatic": "^3.1.1",
     "redis": "^5.12.1",
     "reflect-metadata": "^0.2.2",
-    "stripe": "^8.46.0",
+    "stripe": "^22.1.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -69,6 +69,7 @@
     "prettier": "^3.8.3",
     "prisma": "^7.8.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.0"
   }

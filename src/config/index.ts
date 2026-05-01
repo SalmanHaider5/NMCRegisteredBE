@@ -1,6 +1,8 @@
 export * from './app.config';
 export * from './auth.config';
 export * from './email.config';
+export * from './stripe.config';
+export * from './paypal.config';
 
 // const config = {
 //   port: Number(process.env.PORT) || 3000,

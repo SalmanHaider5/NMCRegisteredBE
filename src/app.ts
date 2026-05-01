@@ -3,10 +3,22 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import path from 'path';
 import cookieParser from 'cookie-parser';
-import { userRoutes, authRoutes } from './routes';
+import {
+  userRoutes,
+  authRoutes,
+  subscriptionRoutes,
+  companyRoutes,
+} from './routes';
 import { errorHandler } from './middlewares';
+import { SubscriptionController } from './modules/subscription/subscription.controller';
 
 const app = express();
+
+app.post(
+   '/api/subscription/stripe/webhook',
+  express.raw({ type: 'application/json' }),
+  SubscriptionController.confirmPayment,
+);
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -22,6 +34,8 @@ app.get('/health', async (req, res) => {
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/subscription', subscriptionRoutes);
+app.use('/api/company', companyRoutes);
 
 app.use(errorHandler);
 
