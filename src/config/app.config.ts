@@ -7,4 +7,5 @@ export const app = {
   prismaDbUrl: process.env.DATABASE_URL,
   redisUrl: process.env.REDIS_URL,
   logLevel: process.env.LOG_LEVEL,
+  clientUrl: process.env.CLIENT_URL,
 };
