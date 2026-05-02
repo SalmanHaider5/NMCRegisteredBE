@@ -1,7 +1,7 @@
 import { CompanyRepository } from './company.repository';
 import { AppError } from '../../utils';
 import { MESSAGES } from '../../constants';
-import { CompanyPayload } from './company.types';
+import { CompanyPayload, UpdateCompanyPayload } from './company.types';
 
 export class CompanyService {
   static async createCompany(data: CompanyPayload) {
@@ -11,5 +11,13 @@ export class CompanyService {
     }
     const company = await CompanyRepository.create(data);
     return company;
+  }
+
+  static async updateCompany(userId: number, data: UpdateCompanyPayload) {
+    await CompanyRepository.updateByUserId(userId, data);
+    return {
+      message: MESSAGES.PROFILE_UPDATED,
+      data,
+    };
   }
 }

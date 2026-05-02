@@ -15,4 +15,12 @@ export class CompanyController {
       .status(201)
       .json(ApiResponseUtil.success(MESSAGES.COMPANY_CREATED, company));
   });
+  static updateProfile = asyncHandler(async (req: Request, res: Response) => {
+    const userId = req.user?.id as number;
+    const payload = req.body;
+    const response = await CompanyService.updateCompany(userId, payload);
+    return res
+      .status(200)
+      .json(ApiResponseUtil.success(response.message, response.data));
+  });
 }

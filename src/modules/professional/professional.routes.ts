@@ -10,6 +10,7 @@ import {
   createProfessionalSchema,
   toggle2FASchema,
   updateProfessionalSchema,
+  searchSchema,
 } from './professional.schema';
 
 const router = Router();
@@ -35,6 +36,13 @@ router.put(
   authenticate,
   validateRequest(updateProfessionalSchema),
   ProfessionalController.updateProfile,
+);
+
+router.post(
+  '/search',
+  authenticate,
+  validateRequest(searchSchema),
+  ProfessionalController.search,
 );
 
 export default router;

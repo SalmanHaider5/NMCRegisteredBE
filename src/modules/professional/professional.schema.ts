@@ -22,3 +22,8 @@ export const toggle2FASchema = z.object({
   twoFactorAuthentication: z.boolean(),
   code: z.string(),
 });
+
+export const searchSchema = z.object({
+  page: z.number(),
+  limit: z.number(),
+});

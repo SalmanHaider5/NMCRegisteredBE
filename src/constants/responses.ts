@@ -39,6 +39,10 @@ export const MESSAGES = {
   OTP_EXPIRED: 'Your OTP has expired, please request for a new OTP.',
   TWO_FA_TOGGLED: 'Your 2 Factor Authentication has been updated successfully.',
   PROFILE_UPDATED: 'Your profile has been updated successfully',
+  PROFESSIONALS_LIST: 'List of Professionals',
+  BANK_DETAILS_EXISTED: 'You have already added bank details.',
+  BANK_DETAILS_ADDED: 'Bank details have been successfully added.',
+  BANK_DETAILS_UPDATED: 'Bank details have been successfully updated.',
 };
 
 export const STATUSES = {

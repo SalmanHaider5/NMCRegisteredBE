@@ -78,3 +78,9 @@ export type Toggle2FAPayload = {
   userId: number;
   twoFactorAuthentication: boolean;
 };
+
+export type SearchProfessionalsPayload = {
+  page: number;
+  limit: number;
+  qualification?: string;
+};
