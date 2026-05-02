@@ -16,3 +16,7 @@ export interface PaymentProvider {
   ): Promise<Subscription>;
   cancelSubscription(id: string): Promise<CancelSubscriptionResult>;
 }
+
+export interface SmsProvider {
+  send(phone: string, message: string): Promise<void>;
+}

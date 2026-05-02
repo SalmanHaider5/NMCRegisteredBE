@@ -7,10 +7,15 @@ import { UserRepository } from './user.repository';
 import { auth } from '../../config';
 import { EmailService } from '../../services/email/email.service';
 import { AppError, logger, isActivationLinkExpired } from '../../utils';
+import { UpdatePasswordPayload, UserResponse } from './user.types';
+import { hashPassword } from './user.helpers';
 
 export class UserService {
-
-  private static async sendVerificationEmail(email: string, token: string, userId?: number) {
+  private static async sendVerificationEmail(
+    email: string,
+    token: string,
+    userId?: number,
+  ) {
     return EmailService.sendVerificationEmail(email, token, userId);
   }
 
@@ -43,7 +48,7 @@ export class UserService {
     const user = await UserRepository.createUser({
       email: data.email,
       password: bcrypt.hashSync(data.password, 10),
-      role: data.role.toUpperCase() as UserRole
+      role: data.role.toUpperCase() as UserRole,
     });
     const token = TokenService.generateVerificationToken();
     await TokenRepository.create({
@@ -82,7 +87,7 @@ export class UserService {
     if (user.isVerified) {
       return {
         message: MESSAGES.USER_ALREADY_VERIFIED,
-        data: null
+        data: null,
       };
     }
 
@@ -101,7 +106,7 @@ export class UserService {
     }
 
     await UserRepository.updateUserById(user.id, {
-      isVerified: true
+      isVerified: true,
     });
 
     await TokenRepository.deleteByUserId(user.id);
@@ -109,9 +114,9 @@ export class UserService {
     logger.info(
       {
         userId: user.id,
-        email: user.email
+        email: user.email,
       },
-      MESSAGES.ACCOUNT_VERIFIED
+      MESSAGES.ACCOUNT_VERIFIED,
     );
 
     return {
@@ -119,9 +124,20 @@ export class UserService {
       data: {
         userId: user.id,
         role: user.role,
-        email: user.email
-      }
+        email: user.email,
+      },
     };
   }
 
-};
+  static async updatePassword(
+    payload: UpdatePasswordPayload,
+  ): Promise<UserResponse> {
+    const { userId, password } = payload;
+    const hashed = hashPassword(password);
+    await UserRepository.updatePassword(userId, hashed);
+    return {
+      message: MESSAGES.PASSWORD_UPDATED,
+      data: {},
+    };
+  }
+}

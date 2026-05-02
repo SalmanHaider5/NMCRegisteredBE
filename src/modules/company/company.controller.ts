@@ -4,11 +4,15 @@ import { asyncHandler, ApiResponseUtil } from '../../utils';
 import { MESSAGES } from '../../constants';
 
 export class CompanyController {
-
   static create = asyncHandler(async (req: Request, res: Response) => {
-    const company = await CompanyService.createCompany(req.body);
-      return res.status(201).json(
-        ApiResponseUtil.success(MESSAGES.COMPANY_CREATED, company)
-      );
-  });     
+    const userId = req.user?.id as number;
+    const payload = {
+      ...req.body,
+      userId,
+    };
+    const company = await CompanyService.createCompany(payload);
+    return res
+      .status(201)
+      .json(ApiResponseUtil.success(MESSAGES.COMPANY_CREATED, company));
+  });
 }

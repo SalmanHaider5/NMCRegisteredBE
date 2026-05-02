@@ -204,14 +204,11 @@ model Payment {
 
 model Phone {
   id        Int     @id @default(autoincrement())
-
   phone     String?
   code      String  @unique
   status    Boolean @default(false)
-
   userId    Int     @unique
   user      User    @relation(fields: [userId], references: [id])
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

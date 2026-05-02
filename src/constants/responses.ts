@@ -25,6 +25,20 @@ export const MESSAGES = {
   No_PAYMENT_METHODS: 'You have not saved any payment method.',
   PAYMENT_METHOD_REMOVED:
     'Payment method has been removed, please add other method to continue your subscription.',
+  PROFILE_EXISTS: 'Profile already exists',
+  PROFILE_CREATED: 'Profile has been created successfully.',
+  PHONE_VERIFIED: 'Phone is already added, and verified.',
+  PHONE_IN_USE: 'This number is already in use.',
+  OTP_SENT: 'OTP has been sent, please verify.',
+  PHONE_NOT_FOUND: 'Phone ot found.',
+  INAVLID_CODE: 'Invalid code',
+  PHONE_VERIFIED_SUCCESS: 'Your phone has been successfully verified.',
+  PASSWORD_UPDATED: 'Your password has been updated successfully',
+  INVALID_REQUEST: 'Invalid Request',
+  PHONE_NOT_VERIFIED: 'You have not added or verified your phone.',
+  OTP_EXPIRED: 'Your OTP has expired, please request for a new OTP.',
+  TWO_FA_TOGGLED: 'Your 2 Factor Authentication has been updated successfully.',
+  PROFILE_UPDATED: 'Your profile has been updated successfully',
 };
 
 export const STATUSES = {

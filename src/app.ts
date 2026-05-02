@@ -8,6 +8,8 @@ import {
   authRoutes,
   subscriptionRoutes,
   companyRoutes,
+  professionalRoutes,
+  phoneRoutes,
 } from './routes';
 import { errorHandler } from './middlewares';
 import { SubscriptionController } from './modules/subscription/subscription.controller';
@@ -15,7 +17,7 @@ import { SubscriptionController } from './modules/subscription/subscription.cont
 const app = express();
 
 app.post(
-   '/api/subscription/stripe/webhook',
+  '/api/subscription/stripe/webhook',
   express.raw({ type: 'application/json' }),
   SubscriptionController.confirmPayment,
 );
@@ -36,6 +38,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/subscription', subscriptionRoutes);
 app.use('/api/company', companyRoutes);
+app.use('/api/professional', professionalRoutes);
+app.use('/api/phone', phoneRoutes);
 
 app.use(errorHandler);
 
