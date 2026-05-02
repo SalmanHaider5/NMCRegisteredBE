@@ -12,8 +12,8 @@ export const validateRequest =
         message: ERRORS.VALIDATION_ERROR,
         errors: result.error.issues.map((issue) => ({
           field: issue.path.join('.'),
-          message: issue.message
-        }))
+          message: issue.message,
+        })),
       });
     }
 

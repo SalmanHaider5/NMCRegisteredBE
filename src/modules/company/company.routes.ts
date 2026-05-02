@@ -1,9 +1,15 @@
 import { Router } from 'express';
 import { CompanyController } from './company.controller';
-import { authenticate } from '../../middlewares';
+import { authenticate, validateRequest } from '../../middlewares';
+import { createCompanySchema } from './company.schema';
 
 const router = Router();
 
-router.post('/add', authenticate, CompanyController.create);
+router.post(
+  '/add',
+  authenticate,
+  validateRequest(createCompanySchema),
+  CompanyController.create,
+);
 
 export default router;
