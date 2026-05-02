@@ -1,9 +1,16 @@
 import { prisma } from '../../lib/prisma';
-import { CreateCompanyDTO  } from './company.schema';
+import { UpdateCompanyPayload, CompanyPayload } from './company.types';
 
 export class CompanyRepository {
-  static async create(data: CreateCompanyDTO) {
+  static async create(data: CompanyPayload) {
     return prisma.company.create({
+      data,
+    });
+  }
+
+  static async updateByUserId(userId: number, data: UpdateCompanyPayload) {
+    return prisma.company.update({
+      where: { userId },
       data,
     });
   }

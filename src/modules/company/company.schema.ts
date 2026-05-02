@@ -18,3 +18,5 @@ export const createCompanySchema = z.object({
   subsidiaryName: z.string().optional(),
   subsidiaryAddress: z.string().optional(),
 });
+
+export const updateCompanySchema = createCompanySchema.partial();

@@ -17,3 +17,5 @@ export type CompanyPayload = {
   subsidiaryName?: string;
   subsidiaryAddress?: string;
 };
+
+export type UpdateCompanyPayload = Partial<CompanyPayload>;

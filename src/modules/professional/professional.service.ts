@@ -7,6 +7,7 @@ import {
   ProfessionalPayload,
   Toggle2FAPayload,
   UpdateProfessionalBody,
+  SearchProfessionalsPayload,
 } from './professional.types';
 
 export class ProfessionalService {
@@ -45,6 +46,22 @@ export class ProfessionalService {
     return {
       message: MESSAGES.PROFILE_UPDATED,
       data: body,
+    };
+  }
+
+  static async searchProfiles(payload: SearchProfessionalsPayload) {
+    const { page, limit, qualification } = payload;
+    const professionals = await ProfessionalRepository.findByQualification(
+      page,
+      limit,
+      qualification,
+    );
+    return {
+      message: MESSAGES.PROFESSIONALS_LIST,
+      data: {
+        count: professionals.length,
+        professionals,
+      },
     };
   }
 }

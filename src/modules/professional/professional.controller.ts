@@ -38,4 +38,14 @@ export class ProfessionalController {
       .status(200)
       .json(ApiResponseUtil.success(response.message, response.data));
   });
+  static search = asyncHandler(async (req: Request, res: Response) => {
+    const payload = {
+      ...req.body,
+      qualification: req.query.qualification,
+    };
+    const response = await ProfessionalService.searchProfiles(payload);
+    return res
+      .status(200)
+      .json(ApiResponseUtil.success(response.message, response.data));
+  });
 }
