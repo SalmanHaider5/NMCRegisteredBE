@@ -20,6 +20,13 @@ export class ProfessionalRepository {
     return prisma.professional.findFirst({ where: { userId } });
   }
 
+  static findByIdForOffer(id: number) {
+    return prisma.professional.findFirst({
+      where: { id },
+      select: { userId: true, nmcPin: true, fullName: true },
+    });
+  }
+
   static findByQualification(
     page: number,
     limit: number,

@@ -3,19 +3,6 @@ import { SubscriptionService } from './subscriptions.service';
 import { asyncHandler, ApiResponseUtil } from '../../utils';
 
 export class SubscriptionController {
-  static getPlans = asyncHandler(async (req: Request, res: Response) => {
-    const method = req.query.method as 'stripe' | 'paypal';
-    const plans = await SubscriptionService.getPlans(method);
-    res.json({ success: true, data: plans });
-  });
-
-  static getPlan = asyncHandler(async (req: Request, res: Response) => {
-    const method = req.query.method as 'stripe' | 'paypal';
-    const priceId = req.params.priceId as string;
-    const plan = await SubscriptionService.getPricePlan(method, priceId);
-    res.json({ success: true, data: plan });
-  });
-
   static initPayment = asyncHandler(async (req: Request, res: Response) => {
     const method = req.query.method as 'stripe' | 'paypal';
     const payload = req.body;
@@ -31,13 +18,22 @@ export class SubscriptionController {
     res.json({ success: true, data: subscription });
   });
 
-  static confirmPayment = asyncHandler(async (req: Request, res: Response) => {
-    const signature = req.headers['stripe-signature'] as string;
-    const payload = req.body;
-    const method = 'stripe';
-    await SubscriptionService.confirmPayment(method, signature, payload);
-    res.status(200).json({ received: true });
-  });
+  static confirmStripePayment = asyncHandler(
+    async (req: Request, res: Response) => {
+      const signature = req.headers['stripe-signature'] as string;
+      const payload = req.body;
+      await SubscriptionService.confirmStripePayment(signature, payload);
+      res.status(200).json({ received: true });
+    },
+  );
+
+  static confirmPaypalPayment = asyncHandler(
+    async (req: Request, res: Response) => {
+      const payload = req.body;
+      await SubscriptionService.confirmPaypalPayment(payload);
+      res.status(200).json({ received: true });
+    },
+  );
 
   static cancelSubscription = asyncHandler(
     async (req: Request, res: Response) => {

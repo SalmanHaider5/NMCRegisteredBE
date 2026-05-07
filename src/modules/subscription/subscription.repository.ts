@@ -1,4 +1,5 @@
 import { prisma } from '../../lib/prisma';
+import { ProviderSubscription } from './subscription.types';
 
 export class SubscriptionRepository {
   static create(data: {
@@ -12,6 +13,13 @@ export class SubscriptionRepository {
     currentPeriodEnd?: Date | null;
   }) {
     return prisma.subscription.create({
+      data,
+    });
+  }
+
+  static async updateSubscriptionById(id: number, data: ProviderSubscription) {
+    return prisma.subscription.updateMany({
+      where: { id },
       data,
     });
   }
@@ -46,6 +54,19 @@ export class SubscriptionRepository {
   ) {
     return prisma.subscription.update({
       where: { stripeSubscriptionId: subscriptionId },
+      data,
+    });
+  }
+
+  static async updateSubscriptionByPaypalId(
+    subscriptionId: string,
+    data: {
+      status?: string;
+      currentPeriodStart?: Date;
+    },
+  ) {
+    return prisma.subscription.update({
+      where: { paypalSubscriptionId: subscriptionId },
       data,
     });
   }

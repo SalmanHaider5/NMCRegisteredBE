@@ -41,11 +41,14 @@ export type StripeSubscriptionResponse = {
 };
 
 export type StripePaymentPlan = {
-  id: string;
+  stripePriceId?: string;
+  description: string;
+  key: string;
   name: string;
-  amount: number;
+  price: number;
   currency: string;
-  interval?: string;
+  interval: string;
+  isActive: boolean;
 };
 
 export type StripeSubscriptionEvent =

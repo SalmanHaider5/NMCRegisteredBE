@@ -4,7 +4,7 @@ import { verifyAccessToken } from '../utils/jwt';
 export const authenticate = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const header = req.headers.authorization;
