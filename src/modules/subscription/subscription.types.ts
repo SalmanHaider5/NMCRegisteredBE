@@ -5,10 +5,19 @@ export type User = {
   email: string;
 };
 
-export type StripeSubscription = {
-  id: string;
-  status: string;
-  currentPeriodEnd?: number;
+export type ProviderSubscription = {
+  status?: string;
+  currentPeriodEnd?: Date;
+  sessionId?: string | null;
+  clientSecret?: string | null;
+  hostedInvoiceUrl?: string | null;
+  url?: string | null;
+};
+
+export type SubscriptionResponse = {
+  id?: string;
+  status?: string;
+  currentPeriodEnd?: Date;
   sessionId?: string | null;
   clientSecret?: string | null;
   hostedInvoiceUrl?: string | null;
@@ -16,10 +25,8 @@ export type StripeSubscription = {
 };
 
 export type Subscription = {
-  email: string;
   name?: string;
   customerId: string;
-  savePaymentMethod: boolean;
   planId: string;
   amount?: number;
   currency?: string;
@@ -47,5 +54,12 @@ export type CheckoutSession = {
         end: number;
       };
     }[];
+  };
+};
+
+export type PaypalWebHookEvent = {
+  event_type: string;
+  resource: {
+    id: string;
   };
 };

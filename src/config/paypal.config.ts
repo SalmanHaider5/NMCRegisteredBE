@@ -17,6 +17,7 @@ export const paypalConfig = {
   clientId,
   clientSecret,
   webhookId: process.env.PAYPAL_WEBHOOK_ID || '',
+  productId: process.env.PAYPAL_PRODUCT_ID || '',
   baseUrl:
     process.env.PAYPAL_MODE === 'live'
       ? 'https://api-m.paypal.com'

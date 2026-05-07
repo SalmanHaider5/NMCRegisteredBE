@@ -43,6 +43,15 @@ export const MESSAGES = {
   BANK_DETAILS_EXISTED: 'You have already added bank details.',
   BANK_DETAILS_ADDED: 'Bank details have been successfully added.',
   BANK_DETAILS_UPDATED: 'Bank details have been successfully updated.',
+  SHIFTS_LIST: 'List of Shifts',
+  TIMESHEET_CREATED: 'Timesheet has been added successfully.',
+  TIMESHEETS: 'Timesheets',
+  TIMESHEET_REMOVED: 'Timesheet has been removed successfully.',
+  OFFER_CREATED: 'Offer has been created successfully.',
+  OFFER_UPDATED: 'Offer has been updated successfully.',
+  PLANS_LIST: 'List of Plans',
+  INVALID_PAYMENT_METHOD:
+    'Unsupported payment method. Supported methods are: stripe, paypal.',
 };
 
 export const STATUSES = {
@@ -53,4 +62,5 @@ export const STATUSES = {
   ACTIVE: 'active',
   CANCELLED: 'cancelled',
   PAST_DUE: 'past_due',
+  SUSPENDED: 'suspended',
 };

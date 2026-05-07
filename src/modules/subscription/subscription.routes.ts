@@ -8,8 +8,6 @@ import {
 
 const router = Router();
 
-router.get('/plans', authenticate, SubscriptionController.getPlans);
-router.get('/plans/:priceId', authenticate, SubscriptionController.getPlan);
 router.delete(
   '/cancel',
   authenticate,

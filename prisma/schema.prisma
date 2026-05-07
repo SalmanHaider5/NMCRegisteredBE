@@ -70,118 +70,84 @@ model Company {
 
 model Professional {
   id                      Int      @id @default(autoincrement())
-
   status                  String?
   profilePicture          String?
-
   fullName                String
   dateOfBirth             DateTime
-
   postCode                String
   address                 String
   city                    String?
   county                  String?
-
   nmcPin                  String
-
   hasTransport           Boolean  @default(false)
   distance               Int?
-
   qualification          String?
-
   twoFactorAuthentication Boolean  @default(false)
-
   document               String?
   crbDocument           String?
-
   cpdHours              Int?
-
   experience            String? @db.VarChar(2048)
-
   userId                Int     @unique
   user                  User    @relation(fields: [userId], references: [id])
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Offer {
   id              Int      @id @default(autoincrement())
-
   professionalId  Int
   professional    User     @relation("ProfessionalOffers", fields: [professionalId], references: [id])
-
   companyId       Int
   company         Company  @relation("CompanyOffers", fields: [companyId], references: [id])
-
   shiftRate       Int?
-
   address         String?
   shifts          String? @db.VarChar(1024)
-
   message         String?
   professionalMsg String?
-
   status          String   @default("pending")
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Timesheet {
   id            Int      @id @default(autoincrement())
-
   startingDay   DateTime?
   endingDay     DateTime?
-
   userId        Int
   user          User     @relation(fields: [userId], references: [id])
-
+  isExpired     Boolean @default(false)
   timesheetEntries TimesheetEntries[]
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model TimesheetEntries {
   id           Int      @id @default(autoincrement())
-
   date         DateTime?
-  shift        String?
-  time         String?
-
+  shiftId      Int?   
+  shift        Shift?    @relation(fields: [shiftId], references: [id])
   status       Boolean  @default(false)
-
   timesheetId  Int
   timesheet    Timesheet @relation(fields: [timesheetId], references: [id], onDelete: Cascade)
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Subscription {
   id Int @id @default(autoincrement())
-
   companyId Int @unique
   company Company @relation(fields: [companyId], references: [id])
-
   provider String 
   status String
-
   plan String?
-
   stripeSubscriptionId String? @unique
   stripeCustomerId String? @unique
   stripeSessionId String? @unique
-
   paypalSubscriptionId String? @unique
   paypalPayerId String? @unique
-
   currentPeriodStart DateTime?
   currentPeriodEnd DateTime?
-
   payments Payment[]
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -227,14 +193,11 @@ model LocationHistory {
 
 model BankDetails {
   id             Int     @id @default(autoincrement())
-
   insurance      String?
   sortCode       String?
   accountNumber  String
-
   userId         Int     @unique
   user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
@@ -250,4 +213,40 @@ model Token {
 
   createdAt DateTime @default(now())
   @@unique([userId])
+}
+
+model Shift {
+  id        Int  @id @default(autoincrement())
+  key       String   @unique
+  name      String
+  startTime String
+  endTime   String
+  timesheetEntries TimesheetEntries[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model JobLog {
+  id        Int      @id @default(autoincrement())
+  jobName   String
+  status    String   // RUNNING | SUCCESS | FAILED
+  processed Int?
+  error     String?
+  startedAt DateTime @default(now())
+  endedAt   DateTime?
+}
+
+model Plan {
+  id            Int      @id @default(autoincrement())
+  key           String   @unique
+  name          String
+  provider      String?
+  price         Float
+  currency      String   @default("GBP")
+  interval      String
+  isActive      Boolean  @default(true)
+  stripePriceId String?
+  paypalPlanId  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
